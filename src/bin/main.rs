@@ -6,8 +6,8 @@ use gops::humanplayer::HumanPlayer;
 fn main() {
     // Should probably not be a struct, but an enum
     /*
-    let player_a = Box::new(HumanPlayer{value: 1});
-    let player_b = Box::new(EqualBuyer{value: 1});
+    let player_a = Box::new(SimpleMC{n_samples: 1000});
+    let player_b = Box::new(HumanPlayer{value: 1});
     //let player_b = Box::new(RandomAIPlayer{value: 1});
     //let player_b = Box::new(RandomAIPlayer{value: 1});
 
@@ -15,7 +15,7 @@ fn main() {
     game.play();
     */
 
-    let mut arena = Arena::new(100, AIEnum::SimpleMC, AIEnum::EqualBuyer);
+    let mut arena = Arena::new(2000, AIEnum::SimpleMC, AIEnum::EqualBuyer);
     arena.start_tournament();
     arena.show_results();
 }

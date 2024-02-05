@@ -45,7 +45,10 @@ impl Player for SimpleMC {
         for card in options.iter() {
             let sum_score = (0..self.n_samples)
                 .into_par_iter()
-                .map(|_| { Game::mc_move_and_copy(state, is_player_a, *card).play() })
+                .map(|_| -> i32 { 
+                    let result = Game::mc_move_and_copy(state, is_player_a, *card).play();
+                    ((result > 0 && is_player_a)  || (result < 0 && !is_player_a)) as i32
+                })
                 .sum();
 
             if (sum_score > best_score && is_player_a) ||

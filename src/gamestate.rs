@@ -3,7 +3,7 @@ use core::cmp::Ordering;
 
 #[derive(Clone)]
 pub struct GameState {
-    write_to_console: bool,
+    pub write_to_console: bool,
 
     diamonds: CardStack,
     pub diamonds_on_bid: Vec<Card>,

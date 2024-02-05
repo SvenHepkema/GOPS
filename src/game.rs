@@ -24,6 +24,7 @@ impl Game {
 
     pub fn mc_move_and_copy(state: &GameState, mc_is_player_a: bool, card: Card) -> Self {
         let mut state_copy = state.clone();
+        state_copy.write_to_console = false;
 
         let player_a = Box::new(RandomAIPlayer{value: 1});
         let player_b = Box::new(RandomAIPlayer{value: 1});
