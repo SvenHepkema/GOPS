@@ -37,6 +37,7 @@ pub fn cast_number_to_card(number: i32) -> Option<Card> {
     }
 }
 
+#[derive(Clone)]
 pub struct CardStack {
     pub cards_in_stack: Vec<Card>,
     pub cards_out_of_stack: Vec<Card>,
@@ -50,16 +51,19 @@ impl CardStack {
         }
     }
 
-    pub fn draw_random(&mut self) -> Card {
-        let (i, &out) = self
+    pub fn pick_random(&self) -> Card {
+        let (_, &out) = self
             .cards_in_stack
             .iter()
             .enumerate()
             .choose(&mut thread_rng())
             .unwrap();
-        self.cards_in_stack.remove(i);
-        self.cards_out_of_stack.push(out.clone());
         out
+    }
+
+    pub fn draw_random(&mut self) -> Card {
+        let card = self.pick_random();
+        self.draw_card(card)
     }
 
     pub fn draw_card(&mut self, card: Card) -> Card {

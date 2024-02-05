@@ -1,4 +1,4 @@
-use crate::aiplayers::{EqualBuyer, RandomAIPlayer};
+use crate::aiplayers::{EqualBuyer, RandomAIPlayer, SimpleMC};
 use crate::game::Game;
 use crate::player::Player;
 use core::cmp::Ordering;
@@ -8,12 +8,14 @@ use core::cmp::Ordering;
 pub enum AIEnum {
     Random,
     EqualBuyer,
+    SimpleMC,
 }
 
 fn ai_player_factory(ai: &AIEnum) -> Box<dyn Player> {
     match ai {
         AIEnum::Random => Box::new(RandomAIPlayer { value: 1 }),
         AIEnum::EqualBuyer => Box::new(EqualBuyer { value: 1 }),
+        AIEnum::SimpleMC => Box::new(SimpleMC { value: 1 }),
     }
 }
 
@@ -21,6 +23,7 @@ fn ai_get_name(ai: &AIEnum) -> &str {
     match ai {
         AIEnum::Random => "Random",
         AIEnum::EqualBuyer => "EqualBuyer",
+        AIEnum::SimpleMC => "SimpleMC",
     }
 }
 

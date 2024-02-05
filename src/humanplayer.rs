@@ -27,7 +27,7 @@ fn get_number_from_user() -> i32 {
 
 
 impl Player for HumanPlayer {
-    fn play(&self, is_player_a: bool, state: &mut GameState) -> Card {
+    fn pick_card(&self, is_player_a: bool, state: &GameState) -> Card {
         let your_cards = match is_player_a {
             true => &state.player_a_cards.cards_in_stack,
             false => &state.player_b_cards.cards_in_stack,
@@ -47,11 +47,6 @@ impl Player for HumanPlayer {
             card = cast_number_to_card(get_number_from_user());
         }
 
-        let chosen_card = card.unwrap();
-
-        match is_player_a {
-            true => state.player_a_cards.draw_card(chosen_card),
-            false => state.player_b_cards.draw_card(chosen_card),
-        }
+        card.unwrap()
     }
 }

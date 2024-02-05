@@ -7,10 +7,10 @@ pub struct RandomAIPlayer {
 }
 
 impl Player for RandomAIPlayer {
-    fn play(&self, is_player_a: bool, state: &mut GameState) -> Card {
+    fn pick_card(&self, is_player_a: bool, state: &GameState) -> Card {
         match is_player_a {
-            true => state.player_a_cards.draw_random(),
-            false => state.player_b_cards.draw_random(),
+            true => state.player_a_cards.pick_random(),
+            false => state.player_b_cards.pick_random(),
         }
     }
 }
@@ -20,10 +20,32 @@ pub struct EqualBuyer {
 }
 
 impl Player for EqualBuyer {
-    fn play(&self, is_player_a: bool, state: &mut GameState) -> Card {
+    fn pick_card(&self, _: bool, state: &GameState) -> Card {
+        *state.diamonds_on_bid.last().unwrap()
+    }
+}
+
+pub struct SimpleMC {
+    pub value: i32
+}
+
+impl Player for SimpleMC {
+    fn pick_card(&self, is_player_a: bool, state: &GameState) -> Card {
+        *state.diamonds_on_bid.last().unwrap()
+        /*
+        let options = match is_player_a {
+            true => &state.player_a_cards.cards_in_stack,
+            false => &state.player_b_cards.cards_in_stack,
+        }.clone();
+
+    
+        let best_card = options[0];
+
+
         match is_player_a {
-            true => state.player_a_cards.draw_card(*state.diamonds_on_bid.last().unwrap()),
-            false => state.player_b_cards.draw_card(*state.diamonds_on_bid.last().unwrap()),
+            true => state.player_a_cards.draw_card(best_card),
+            false => state.player_b_cards.draw_card(best_card),
         }
+        */
     }
 }

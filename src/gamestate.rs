@@ -1,6 +1,7 @@
 use crate::cards::{Card, CardStack, show_card_vector};
 use core::cmp::Ordering;
 
+#[derive(Clone)]
 pub struct GameState {
     write_to_console: bool,
 
@@ -82,6 +83,9 @@ impl GameState {
     }
 
     pub fn bid(&mut self, card_a: Card, card_b: Card) {
+        self.player_a_cards.draw_card(card_a);
+        self.player_b_cards.draw_card(card_b);
+
         self.show_bid_result(card_a, card_b);
 
         match (card_a as i32).cmp(&(card_b as i32)) {

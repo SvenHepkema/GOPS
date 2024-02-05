@@ -14,7 +14,7 @@ fn main() {
     game.play();
     */
 
-    let mut arena = Arena::new(1000, AIEnum::Random, AIEnum::Random);
+    let mut arena = Arena::new(1000, AIEnum::SimpleMC, AIEnum::Random);
     arena.start_tournament();
     arena.show_results();
 }
