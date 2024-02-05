@@ -74,21 +74,21 @@ impl Arena {
 
     pub fn show_results(&self) {
         println!(
-            "Player A: {} \twon {} games ({:.2}%)",
+            "Player A: {} \twon {} games ({:.1}%)",
             ai_get_name(&self.player_a),
             self.player_a_wins,
-            self.player_a_wins / self.n_games
+            (self.player_a_wins as f32 / self.n_games as f32) * 100 as f32
         );
         println!(
-            "Player B: {} \twon {} games ({:.2}%)",
+            "Player B: {} \twon {} games ({:.1}%)",
             ai_get_name(&self.player_b),
             self.player_b_wins,
-            self.player_b_wins / self.n_games
+            (self.player_b_wins as f32 / self.n_games as f32) * 100 as f32
         );
         println!(
-            "There were {} draws ({:.2}%)",
+            "There were {} draws ({:.1}%)",
             self.draws,
-            self.draws / self.n_games
+            (self.draws as f32 / self.n_games as f32) * 100 as f32
         );
     }
 }
