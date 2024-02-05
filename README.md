@@ -12,5 +12,5 @@ The player should be able to play against multiple AI players. It should also be
 
 # Dependencies
 
-- [Ratatui](https://github.com/ratatui-org/ratatui) for the terminal user interface.
+- [Rayon](https://github.com/rayon-rs/rayon) For thread parallelization
 

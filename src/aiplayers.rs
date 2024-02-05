@@ -2,6 +2,7 @@ use crate::cards::Card;
 use crate::game::Game;
 use crate::gamestate::GameState;
 use crate::player::Player;
+use rayon::prelude::*;
 
 pub struct RandomAIPlayer {
     pub value: i32
@@ -42,10 +43,10 @@ impl Player for SimpleMC {
         let mut best_score: i32 = 0;
 
         for card in options.iter() {
-            let mut sum_score = 0;
-            for _ in 0..self.n_samples {
-                sum_score += Game::mc_move_and_copy(state, is_player_a, *card).play();
-            }
+            let sum_score = (0..self.n_samples)
+                .into_par_iter()
+                .map(|_| { Game::mc_move_and_copy(state, is_player_a, *card).play() })
+                .sum();
 
             if (sum_score > best_score && is_player_a) ||
                (sum_score < best_score && !is_player_a) {
