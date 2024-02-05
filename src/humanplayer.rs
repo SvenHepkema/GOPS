@@ -1,10 +1,11 @@
 use std::io;
 
-use crate::game::{Card, GameState};
+use crate::cards::Card;
+use crate::gamestate::GameState;
 use crate::player::Player;
 
 pub struct HumanPlayer {
-    pub value: i32
+    pub value: i32,
 }
 
 fn get_number_from_user() -> i32 {
@@ -16,13 +17,11 @@ fn get_number_from_user() -> i32 {
     let trimmed = input_text.trim();
 
     match trimmed.parse::<i32>() {
-        Ok(i) => {
-            i
-        },
+        Ok(i) => i,
         Err(..) => {
             println!("this was not an integer: {}", trimmed);
             get_number_from_user()
-        },
+        }
     }
 }
 
@@ -41,10 +40,9 @@ fn cast_number_to_card(number: i32) -> Option<Card> {
         11 => Some(Card::Jack),
         12 => Some(Card::Queen),
         13 => Some(Card::King),
-        _ => None
+        _ => None,
     }
 }
-
 
 impl Player for HumanPlayer {
     fn play(&self, is_player_a: bool, state: &mut GameState) -> Card {
@@ -76,7 +74,6 @@ impl Player for HumanPlayer {
 
         println!("You chose to play: {0}", chosen_card as i32 + 1);
 
-        
         match is_player_a {
             true => state.player_a_cards.draw_card(chosen_card),
             false => state.player_b_cards.draw_card(chosen_card),

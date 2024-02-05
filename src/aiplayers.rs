@@ -1,4 +1,5 @@
-use crate::game::{Card, GameState};
+use crate::cards::Card;
+use crate::gamestate::GameState;
 use crate::player::Player;
 
 pub struct RandomAIPlayer {
