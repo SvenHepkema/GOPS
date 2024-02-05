@@ -15,7 +15,7 @@ fn ai_player_factory(ai: &AIEnum) -> Box<dyn Player> {
     match ai {
         AIEnum::Random => Box::new(RandomAIPlayer { value: 1 }),
         AIEnum::EqualBuyer => Box::new(EqualBuyer { value: 1 }),
-        AIEnum::SimpleMC => Box::new(SimpleMC { value: 1 }),
+        AIEnum::SimpleMC => Box::new(SimpleMC { n_samples: 1000 }),
     }
 }
 

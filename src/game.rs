@@ -22,17 +22,19 @@ impl Game {
         }
     }
 
-    /*
-    pub fn mc_copy_and_move(&self, mc_is_player_a: bool, card: Card) -> Self {
-        let state_copy = self.state.clone();
+    pub fn mc_move_and_copy(state: &GameState, mc_is_player_a: bool, card: Card) -> Self {
+        let mut state_copy = state.clone();
 
         let player_a = Box::new(RandomAIPlayer{value: 1});
         let player_b = Box::new(RandomAIPlayer{value: 1});
 
         match mc_is_player_a {
             true => {
-                state.bid(
-            }
+                state_copy.bid(card, player_b.pick_card(false, &state_copy));
+            },
+            false => {
+                state_copy.bid(player_a.pick_card(true, &state_copy), card);
+            },
         }
 
         Game {
@@ -41,7 +43,6 @@ impl Game {
             state: state_copy,
         }
     }
-    */
 
     pub fn play(&mut self) -> i32 {
         while !self.state.is_finished() {

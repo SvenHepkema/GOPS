@@ -1,4 +1,5 @@
 use crate::cards::Card;
+use crate::game::Game;
 use crate::gamestate::GameState;
 use crate::player::Player;
 
@@ -26,26 +27,33 @@ impl Player for EqualBuyer {
 }
 
 pub struct SimpleMC {
-    pub value: i32
+    pub n_samples: i32
 }
 
 impl Player for SimpleMC {
     fn pick_card(&self, is_player_a: bool, state: &GameState) -> Card {
-        *state.diamonds_on_bid.last().unwrap()
-        /*
         let options = match is_player_a {
             true => &state.player_a_cards.cards_in_stack,
             false => &state.player_b_cards.cards_in_stack,
         }.clone();
 
     
-        let best_card = options[0];
+        let mut best_card = options[0];
+        let mut best_score: i32 = 0;
 
+        for card in options.iter() {
+            let mut sum_score = 0;
+            for _ in 0..self.n_samples {
+                sum_score += Game::mc_move_and_copy(state, is_player_a, *card).play();
+            }
 
-        match is_player_a {
-            true => state.player_a_cards.draw_card(best_card),
-            false => state.player_b_cards.draw_card(best_card),
+            if (sum_score > best_score && is_player_a) ||
+               (sum_score < best_score && !is_player_a) {
+                best_card = card.clone();
+                best_score = sum_score;
+            }
         }
-        */
+
+        best_card
     }
 }
