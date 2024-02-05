@@ -1,6 +1,6 @@
-use crate::player::Player;
 use crate::cards::Card;
 use crate::gamestate::GameState;
+use crate::player::Player;
 
 pub fn calculate_score(cards: &Vec<Card>) -> i32 {
     let mut sum = 0;
@@ -19,27 +19,28 @@ pub struct Game {
 }
 
 impl Game {
-    pub fn new(player_a: Box<dyn Player>, player_b: Box<dyn Player>) -> Self {
+    pub fn new(
+        player_a: Box<dyn Player>,
+        player_b: Box<dyn Player>,
+        write_to_console: bool
+    ) -> Self {
         Game {
             player_a,
             player_b,
-            state: GameState::new(),
+            state: GameState::new(write_to_console),
         }
     }
 
     pub fn play(&mut self) -> i32 {
-        let mut counter = 1;
-        while counter <= 13 {
-            println!("===============");
-            println!("Round {0}", counter);
-            println!("===============");
+        while !self.state.is_finished() {
+            self.state.show_round();
+
+            self.state.draw_diamond();
+
             let card_a = self.player_a.play(true, &mut self.state);
             let card_b = self.player_b.play(false, &mut self.state);
 
-            if counter != 13 {
-                self.state.bid(card_a, card_b);
-            }
-            counter += 1;
+            self.state.bid(card_a, card_b);
         }
 
         let score_a = calculate_score(&self.state.player_a_diamonds);

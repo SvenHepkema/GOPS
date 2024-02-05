@@ -18,6 +18,25 @@ pub enum Card {
     King,
 }
 
+pub fn cast_number_to_card(number: i32) -> Option<Card> {
+    match number {
+        1 => Some(Card::Ace),
+        2 => Some(Card::C2),
+        3 => Some(Card::C3),
+        4 => Some(Card::C4),
+        5 => Some(Card::C5),
+        6 => Some(Card::C6),
+        7 => Some(Card::C7),
+        8 => Some(Card::C8),
+        9 => Some(Card::C9),
+        10 => Some(Card::C10),
+        11 => Some(Card::Jack),
+        12 => Some(Card::Queen),
+        13 => Some(Card::King),
+        _ => None,
+    }
+}
+
 pub struct CardStack {
     pub cards_in_stack: Vec<Card>,
     pub cards_out_of_stack: Vec<Card>,
@@ -57,4 +76,29 @@ impl CardStack {
     pub fn is_empty(&self) -> bool {
         return self.cards_in_stack.is_empty();
     }
+}
+
+pub fn show_card_vector(message: &str, cards: &Vec<Card>) {
+    print!("{}", message);
+    for card in cards.iter() {
+        print!("{0}  ", *card as i32 + 1);
+    }
+    println!("");
+}
+
+pub fn show_card_vector_with_spaces(message: &str, cards: &Vec<Card>) {
+    print!("{}", message);
+    for number in 1..14 {
+        if cards.contains(&cast_number_to_card(number).unwrap()) {
+            print!("{0}  ", number);
+        } else {
+            if number >= 10 {
+                print!("    ");
+            }
+            else {
+                print!("   ");
+            }
+        }
+    }
+    println!("");
 }

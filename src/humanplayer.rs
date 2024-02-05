@@ -1,6 +1,6 @@
 use std::io;
 
-use crate::cards::Card;
+use crate::cards::{Card, show_card_vector, cast_number_to_card, show_card_vector_with_spaces};
 use crate::gamestate::GameState;
 use crate::player::Player;
 
@@ -25,54 +25,29 @@ fn get_number_from_user() -> i32 {
     }
 }
 
-fn cast_number_to_card(number: i32) -> Option<Card> {
-    match number {
-        1 => Some(Card::Ace),
-        2 => Some(Card::C2),
-        3 => Some(Card::C3),
-        4 => Some(Card::C4),
-        5 => Some(Card::C5),
-        6 => Some(Card::C6),
-        7 => Some(Card::C7),
-        8 => Some(Card::C8),
-        9 => Some(Card::C9),
-        10 => Some(Card::C10),
-        11 => Some(Card::Jack),
-        12 => Some(Card::Queen),
-        13 => Some(Card::King),
-        _ => None,
-    }
-}
 
 impl Player for HumanPlayer {
     fn play(&self, is_player_a: bool, state: &mut GameState) -> Card {
-        println!("Playing for:");
-
-        for card in state.diamonds_on_bid.iter() {
-            print!("{0} _ ", *card as i32 + 1);
-        }
-
-        println!("");
-
-        let cards = match is_player_a {
+        let your_cards = match is_player_a {
             true => &state.player_a_cards.cards_in_stack,
             false => &state.player_b_cards.cards_in_stack,
         };
+        let your_diamonds = match is_player_a {
+            true => &state.player_a_diamonds,
+            false => &state.player_b_diamonds,
+        };
 
-        for card in cards.iter() {
-            print!("{0} _ ", *card as i32 + 1);
-        }
+        show_card_vector("At stake\t: ", &state.diamonds_on_bid);
+        show_card_vector_with_spaces("Your cards\t: ", your_cards);
+        show_card_vector("Your diamonds\t: ", your_diamonds);
 
-        println!("Pick one: ");
         let mut card = cast_number_to_card(get_number_from_user());
-        while card == None || !cards.contains(&card.unwrap()) {
-            println!("Pick one: ");
+        while card == None || !your_cards.contains(&card.unwrap()) {
+            print!("Pick one: ");
             card = cast_number_to_card(get_number_from_user());
         }
 
         let chosen_card = card.unwrap();
-
-        println!("You chose to play: {0}", chosen_card as i32 + 1);
 
         match is_player_a {
             true => state.player_a_cards.draw_card(chosen_card),
