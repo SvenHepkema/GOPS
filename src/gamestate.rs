@@ -1,4 +1,4 @@
-use crate::cards::{Card, CardStack};
+use crate::cards::{Card, CardStack, show_card_vector};
 use core::cmp::Ordering;
 
 pub struct GameState {
@@ -12,6 +12,16 @@ pub struct GameState {
 
     pub player_a_diamonds: Vec<Card>,
     pub player_b_diamonds: Vec<Card>,
+}
+
+fn calculate_score(cards: &Vec<Card>) -> i32 {
+    let mut sum = 0;
+
+    for card in cards.iter() {
+        sum += *card as i32 + 1;
+    }
+
+    sum
 }
 
 impl GameState {
@@ -36,6 +46,20 @@ impl GameState {
                 card_a as i32 + 1,
                 card_b as i32 + 1
             );
+        }
+    }
+
+    pub fn show_result(&self, score_a: i32, score_b: i32, score: i32) {
+        if self.write_to_console {
+            println!("===============");
+            println!("Result");
+            println!("===============");
+
+            show_card_vector("A diamonds: ", &self.player_a_diamonds);
+            show_card_vector("B diamonds: ", &self.player_b_diamonds);
+            println!("Score A: {}", score_a);
+            println!("Score B: {}", score_b);
+            println!("Score: {0}", score);
         }
     }
 
@@ -68,17 +92,16 @@ impl GameState {
     }
  
     pub fn is_finished(&self) -> bool {
-        self.diamonds.is_empty() && self.diamonds_on_bid.is_empty()
-    }
-}
-
-pub fn calculate_score(cards: &Vec<Card>) -> i32 {
-    let mut sum = 0;
-
-    for card in cards.iter() {
-        sum += *card as i32;
+        self.player_a_cards.cards_in_stack.is_empty()
     }
 
-    sum
-}
+    pub fn calculate_score(&self) -> i32 {
+        let score_a = calculate_score(&self.player_a_diamonds);
+        let score_b = calculate_score(&self.player_b_diamonds);
+        let score = score_a - score_b;
 
+        self.show_result(score_a, score_b, score);
+
+        score
+    }
+}

@@ -1,16 +1,5 @@
-use crate::cards::Card;
 use crate::gamestate::GameState;
 use crate::player::Player;
-
-pub fn calculate_score(cards: &Vec<Card>) -> i32 {
-    let mut sum = 0;
-
-    for card in cards.iter() {
-        sum += *card as i32;
-    }
-
-    sum
-}
 
 pub struct Game {
     player_a: Box<dyn Player>,
@@ -43,9 +32,7 @@ impl Game {
             self.state.bid(card_a, card_b);
         }
 
-        let score_a = calculate_score(&self.state.player_a_diamonds);
-        let score_b = calculate_score(&self.state.player_b_diamonds);
 
-        score_a - score_b
+        self.state.calculate_score()
     }
 }

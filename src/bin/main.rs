@@ -9,5 +9,5 @@ fn main() {
     //let player_b = Box::new(RandomAIPlayer{value: 1});
 
     let mut game = Game::new(player_a, player_b, true);
-    println!("Score: {0}", game.play());
+    game.play();
 }
