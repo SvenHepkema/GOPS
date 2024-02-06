@@ -1,14 +1,7 @@
-# Intended Features
+# Description
 
-The player should be able to play against multiple AI players. It should also be able to let AI players play games against each other, and show advanced statistics using a terminal GUI crate.
+This mini rust project allows the user to play the card game of [GOPS](https://en.wikipedia.org/wiki/Goofspiel) (Game of Pure Strategy) against AI players. The basics are currently implemented, more and better AI players and more performance improvements are the current focus of development.
 
-# Build
-
-# Test
-
-# Benchmark
-
-# Run
 
 # Dependencies
 
